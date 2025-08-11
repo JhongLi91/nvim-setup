@@ -35,30 +35,27 @@ vim.o.expandtab = true
 vim.o.smartindent = true
 vim.o.autoindent = true
 
--- close all other buffers
-vim.keymap.set("n", ";w", ":%bd|e#<CR>")
-
 -- Use 2 spaces per tab for HTML, CSS, and JavaScript
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = {
-		"html",
-		"css",
-		"javascript",
-		"javascriptreact",
-		"typescript",
-		"typescriptreact",
-		"cmake",
-	},
-	command = "setlocal tabstop=2 shiftwidth=2",
+    pattern = {
+        "html",
+        "css",
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "cmake",
+    },
+    command = "setlocal tabstop=2 shiftwidth=2",
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "c", "cpp" },
-	callback = function()
-		vim.opt_local.cindent = true
-		vim.opt_local.cinoptions = "l1,(s"
-		vim.opt_local.cinwords = "if,else,switch,case,for,while,do"
-	end,
+    pattern = { "c", "cpp" },
+    callback = function()
+        vim.opt_local.cindent = true
+        vim.opt_local.cinoptions = "l1,(s"
+        vim.opt_local.cinwords = "if,else,switch,case,for,while,do"
+    end,
 })
 
 --insert editing bindings

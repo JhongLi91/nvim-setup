@@ -45,7 +45,6 @@ require("lazy").setup({
                 "nvim-lua/plenary.nvim",
                 "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
                 "MunifTanjim/nui.nvim",
-                -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
             },
         },
 
@@ -160,16 +159,6 @@ require("lazy").setup({
             },
         },
 
-        -- status line
-        { "nvim-lualine/lualine.nvim" },
-
-        -- cpp
-        {
-            "xeluxee/competitest.nvim",
-            dependencies = "MunifTanjim/nui.nvim",
-            lazy = true,
-        },
-
         -- leetcode
         {
             "kawre/leetcode.nvim",
@@ -194,6 +183,9 @@ require("lazy").setup({
             },
         },
 
+        -- harpoon
+        { "theprimeagen/harpoon" },
+
         -- git
         { "lewis6991/gitsigns.nvim",   lazy = true },
         { "akinsho/git-conflict.nvim", version = "*", config = true },
@@ -203,7 +195,45 @@ require("lazy").setup({
     checker = { enabled = false },
 })
 
+----------------------------------------------harpoon setup--------------------------------------------------
+
+local harpoon = require("harpoon")
+harpoon:setup({})
+
+vim.keymap.set("n", ";a", function()
+    harpoon:list():add()
+end, { silent = true, desc = "Harpoon add file" })
+
+vim.keymap.set("n", ";w", function()
+    harpoon.ui:toggle_quick_menu(harpoon:list())
+end, { silent = true, desc = "Harpoon quick menu" })
+
+vim.keymap.set("n", ";1", function()
+    harpoon:list():select(1)
+end, { silent = true, desc = "Harpoon file 1" })
+
+vim.keymap.set("n", ";2", function()
+    harpoon:list():select(2)
+end, { silent = true, desc = "Harpoon file 2" })
+
+vim.keymap.set("n", ";3", function()
+    harpoon:list():select(3)
+end, { silent = true, desc = "Harpoon file 3" })
+
+vim.keymap.set("n", ";4", function()
+    harpoon:list():select(4)
+end, { silent = true, desc = "Harpoon file 4" })
+
+vim.keymap.set("n", ";5", function()
+    harpoon:list():select(5)
+end, { silent = true, desc = "Harpoon file 5" })
+
+vim.keymap.set("n", ";6", function()
+    harpoon:list():select(6)
+end, { silent = true, desc = "Harpoon file 6" })
+
 ----------------------------------------------indent setup--------------------------------------------------
+
 require("ibl").setup({
     enabled = true,
     indent = {
@@ -239,8 +269,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
         vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
         vim.keymap.set("n", "gr", "<cmd>cexpr []<cr><cmd>lua vim.lsp.buf.references()<cr>", opts)
-        vim.keymap.set("n", ";r", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
-        vim.keymap.set("n", "<M-l>", "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
+        vim.keymap.set("n", "L", "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
         vim.keymap.set("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
         vim.keymap.set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts)
     end,
@@ -288,11 +317,8 @@ cmp.setup({
         end,
     },
     mapping = {
-        -- ["<C-n>"] = cmp.config.disable,
-        -- ["<C-p>"] = cmp.config.disable,
-        ["<C-e>"] = cmp.config.disable,
-        ["<Tab>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
-        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<C-s>"] = cmp.config.disable,
+        ["<Enter>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
         ["<C-n>"] = cmp.mapping.select_next_item(),
         ["<C-p>"] = cmp.mapping.select_prev_item(),
     },
@@ -365,7 +391,6 @@ conform.setup({
         python = { "ruff_format" },
         javascript = { "prettierd", "prettier" },
         html = { "prettierd", "prettier" },
-        -- ["_"] = { "trim_whitespace" },
     },
     default_format_opts = {
         lsp_format = "fallback",
@@ -384,10 +409,10 @@ vim.api.nvim_set_keymap("v", "=", "gq", { noremap = true, silent = true })
 -------------------------------------------comment setup--------------------------------------------------
 require("Comment").setup({
     toggler = {
-        line = "<C-s>",
+        line = "<C-d>",
     },
     opleader = {
-        line = "<C-s>",
+        line = "<C-d>",
     },
 })
 
@@ -415,7 +440,7 @@ telescope.setup({
 local builtin = require("telescope.builtin")
 local utils = require("telescope.utils")
 vim.keymap.set("n", ";f", builtin.find_files)
-vim.keymap.set("n", ";c", function()
+vim.keymap.set("n", ";e", function()
     builtin.diagnostics({ severity_limit = vim.diagnostic.severity.ERROR })
 end)
 vim.keymap.set("n", ";h", builtin.live_grep)
@@ -540,6 +565,19 @@ vim.keymap.set("n", ";y", ":Gvdiffsplit<CR>")
 
 require("gitsigns").setup({
     current_line_blame = true,
+    on_attach = function(bufnr)
+        local gs = require("gitsigns")
+        local opts = { buffer = bufnr, noremap = true, silent = true }
+
+        -- Normal hunk reset
+        vim.keymap.set("n", ";gr", gs.reset_hunk, opts)
+
+        -- Reset only current line
+        vim.keymap.set("n", ";gl", function()
+            local lnum = vim.fn.line(".")
+            gs.reset_hunk({ lnum, lnum })
+        end, opts)
+    end,
 })
 require("git-conflict").setup({
     default_mappings = true,     -- disable buffer local mapping created by this plugin
@@ -570,6 +608,14 @@ vim.api.nvim_create_autocmd("User", {
         end)
     end,
 })
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+    callback = function()
+        vim.api.nvim_set_hl(0, "GitSignsChange", { fg = "#268bd2" }) -- light blue
+    end,
+})
+
+vim.api.nvim_set_hl(0, "GitSignsChange", { fg = "#268bd2" })
 -------------------------------------------theme setup--------------------------------------------
 
 require("everforest").setup({
