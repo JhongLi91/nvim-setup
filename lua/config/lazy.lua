@@ -87,7 +87,6 @@ require("lazy").setup({
 
         -- lsp manager
         { "williamboman/mason.nvim" },
-        { "williamboman/mason-lspconfig.nvim" },
 
         -- base lsp
         { "neovim/nvim-lspconfig" },
@@ -268,7 +267,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
         vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
         vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
-        vim.keymap.set("n", "gr", "<cmd>cexpr []<cr><cmd>lua vim.lsp.buf.references()<cr>", opts)
+        vim.keymap.set("n", "gu", "<cmd>cexpr []<cr><cmd>lua vim.lsp.buf.references()<cr>", opts)
         vim.keymap.set("n", "L", "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
         vim.keymap.set("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
         vim.keymap.set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts)
@@ -318,6 +317,7 @@ cmp.setup({
     },
     mapping = {
         ["<C-s>"] = cmp.config.disable,
+        ["<Tab>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
         ["<Enter>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
         ["<C-n>"] = cmp.mapping.select_next_item(),
         ["<C-p>"] = cmp.mapping.select_prev_item(),
@@ -348,16 +348,34 @@ require("lsp_signature").setup({
 })
 
 ----------------------------------------------mason setup--------------------------------------------------
+
 local lspconfig = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 require("mason").setup({})
 
-local servers = { "pyright", "clangd", "lua_ls", "html", "ts_ls", "cmake" }
-for _, server in ipairs(servers) do
-    lspconfig[server].setup({
-        capabilities = capabilities,
-    })
+vim.lsp.config("*", {
+    capabilities = capabilities,
+    root_markers = { ".git" },
+})
+
+vim.lsp.config("pyright", {
+    settings = {
+        ["python"] = {
+            analysis = {
+                typeCheckingMode = "off",
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = "openFilesOnly",
+                extraPaths = { "." }, -- optional but reinforces absolute path support
+            },
+        },
+    },
+})
+
+local ls_to_setup = { "pyright", "clangd", "lua_ls", "html", "ts_ls", "cmake" }
+for _, server in ipairs(ls_to_setup) do
+    vim.lsp.enable(server)
 end
 
 -------------------------------------------tree-sitter setup--------------------------------------------
@@ -579,6 +597,7 @@ require("gitsigns").setup({
         end, opts)
     end,
 })
+
 require("git-conflict").setup({
     default_mappings = true,     -- disable buffer local mapping created by this plugin
     default_commands = true,     -- disable commands created by this plugin
