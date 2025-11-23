@@ -21,21 +21,19 @@ vim.g.maplocalleader = "\\"
 -- Setup lazy.nvim
 require("lazy").setup({
     spec = {
-        -- themes
-        { "catppuccin/nvim",             name = "catppuccin" },
-        { "sainnhe/sonokai" },
-        { "navarasu/onedark.nvim" },
-        { "jacoborus/tender.vim" },
-        { "tanvirtin/monokai.nvim" },
-        { "morhetz/gruvbox" },
-        { "neanias/everforest-nvim" },
-        { "ishan9299/nvim-solarized-lua" },
-        -- { "projekt0n/github-nvim-theme" },
-        { "Mofiqul/vscode.nvim" },
-        -- { "folke/tokyonight.nvim" },
-        { "rose-pine/neovim",            name = "rose-pine" },
+        -- install without yarn or npm
+        {
+            "iamcco/markdown-preview.nvim",
+            cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+            build = "cd app && yarn install",
+            init = function()
+                vim.g.mkdp_filetypes = { "markdown" }
+            end,
+            ft = { "markdown" },
+        },
 
-        { "junegunn/vim-easy-align" },
+        -- themes
+        { "catppuccin/nvim",                        name = "catppuccin" },
 
         -- neotree
         {
@@ -53,16 +51,7 @@ require("lazy").setup({
             "nvim-pack/nvim-spectre",
         },
 
-        -- install without yarn or npm
-        {
-            "iamcco/markdown-preview.nvim",
-            cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-            build = "cd app && yarn install",
-            init = function()
-                vim.g.mkdp_filetypes = { "markdown" }
-            end,
-            ft = { "markdown" },
-        },
+        -- indent
         {
             "lukas-reineke/indent-blankline.nvim",
             main = "ibl",
@@ -71,19 +60,9 @@ require("lazy").setup({
             opts = {},
         },
 
-        {
-            "Wansmer/treesj",
-            dependencies = { "nvim-treesitter/nvim-treesitter" }, -- if you install parsers with `nvim-treesitter`
-        },
-
-        -- peak lines
-        {
-            "nacro90/numb.nvim",
-
-            config = function()
-                require("numb").setup()
-            end,
-        },
+        -- tree-siter
+        { "nvim-treesitter/nvim-treesitter" },
+        { "nvim-treesitter/nvim-treesitter-context" },
 
         -- lsp manager
         { "williamboman/mason.nvim" },
@@ -106,18 +85,14 @@ require("lazy").setup({
             "ray-x/lsp_signature.nvim",
             event = "InsertEnter",
         },
-        { "luckasRanarison/tailwind-tools.nvim",    lazy = true },
-        { "brenoprata10/nvim-highlight-colors",     lazy = true },
+        { "luckasRanarison/tailwind-tools.nvim", lazy = true },
+        { "brenoprata10/nvim-highlight-colors",  lazy = true },
 
         -- formatter
-        { "stevearc/conform.nvim",                  opts = {} },
-
-        -- tree-siter
-        { "nvim-treesitter/nvim-treesitter" },
-        { "nvim-treesitter/nvim-treesitter-context" },
+        { "stevearc/conform.nvim",               opts = {} },
 
         -- comment
-        { "numToStr/Comment.nvim",                  opts = {} },
+        { "numToStr/Comment.nvim",               opts = {} },
 
         -- fuzzy finder
         {
@@ -155,30 +130,6 @@ require("lazy").setup({
             event = "BufReadPre", -- this will only start session saving when an actual file was opened
             opts = {
                 -- add any custom options here
-            },
-        },
-
-        -- leetcode
-        {
-            "kawre/leetcode.nvim",
-            dependencies = {
-                "nvim-telescope/telescope.nvim",
-                -- "ibhagwan/fzf-lua",
-                "nvim-lua/plenary.nvim",
-                "MunifTanjim/nui.nvim",
-            },
-            opts = {
-                -- image_support = true,
-                lang = "cpp",
-                injector = {
-                    cpp = {
-                        before = { '#include "headers.hpp"' },
-                    },
-                },
-                storage = {
-                    home = "~/cpp/leetcode",
-                    cache = vim.fn.stdpath("cache") .. "/leetcode",
-                },
             },
         },
 
@@ -244,14 +195,6 @@ require("ibl").setup({
 })
 
 ----------------------------------------------lsp setup--------------------------------------------------
-
-local tsj = require("treesj")
-tsj.setup({
-    use_default_keymaps = false,
-})
-vim.keymap.set("n", "<C-j>", ":lua require('treesj').toggle()<CR>", { silent = true })
-
-----------------------------------------------lsp setup--------------------------------------------------
 function hoverLook()
     vim.lsp.buf.hover({
         border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
@@ -297,7 +240,6 @@ vim.diagnostic.config({
     float = { border = "rounded" },
 })
 
-require("tailwind-tools").setup({})
 -----------------------------------------------suggestion setup--------------------------------------------------
 local ls = require("luasnip")
 
@@ -434,7 +376,7 @@ require("Comment").setup({
     },
 })
 
--------------------------------------------fuzzy finder setup--------------------------------------------
+-------------------------------------------telescope finder setup--------------------------------------------
 local telescope = require("telescope")
 telescope.setup({
     defaults = {
@@ -514,7 +456,7 @@ autopairs.setup({
 local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 require("cmp").event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
-function rule1(a1, ins, a2, lang)
+function rule(a1, ins, a2, lang)
     autopairs.add_rule(Rule(ins, ins, lang)
         :with_pair(function(opts)
             return a1 .. a2 == opts.line:sub(opts.col - #a1, opts.col + #a2 - 1)
@@ -528,12 +470,11 @@ function rule1(a1, ins, a2, lang)
         end))
 end
 
-rule1("(", " ", ")")
-rule1("{", " ", "}")
-rule1("[", " ", "]")
+rule("(", " ", ")")
+rule("{", " ", "}")
+rule("[", " ", "]")
 
 vim.keymap.set("i", "@{<CR>", "{<CR>};<ESC>O", { noremap = true, silent = true })
---
 
 require("nvim-ts-autotag").setup({
     opts = {
@@ -559,8 +500,8 @@ require("nvim-surround").setup({
         change_line = "cS",
     },
 })
+
 -------------------------------------------persistence setup--------------------------------------------
--- load the session for the current directory
 vim.keymap.set("n", ";s", function()
     require("persistence").load()
 end)
@@ -637,10 +578,6 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 vim.api.nvim_set_hl(0, "GitSignsChange", { fg = "#268bd2" })
 -------------------------------------------theme setup--------------------------------------------
 
-require("everforest").setup({
-    background = "hard",
-})
-
-require("vscode").setup({
-    style = "dark",
+require("catppuccin").setup({
+    flavour = "mocha",
 })
