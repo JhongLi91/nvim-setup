@@ -418,6 +418,13 @@ require("trouble").setup({
     update_in_insert = true,
 })
 
+
+-------------------------------------------find and replace--------------------------------------------
+
+vim.keymap.set("n", ";r", function()
+    require("spectre").open()
+end)
+
 -------------------------------------------todo setup--------------------------------------------
 local todo = require("todo-comments").setup({
     signs = false,
