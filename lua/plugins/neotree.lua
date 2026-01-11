@@ -2,7 +2,7 @@ return {
     {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v3.x",
-        lazy = false, -- Load immediately so it can hijack netrw (nvim .)
+        lazy = false,
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-tree/nvim-web-devicons",
@@ -11,7 +11,6 @@ return {
         keys = {
             { "-", ":Neotree toggle position=current reveal<CR>", silent = true, desc = "Toggle Neo-tree" },
         },
-        -- We use a config function to ensure setup runs correctly
         config = function()
             require("neo-tree").setup({
                 filesystem = {

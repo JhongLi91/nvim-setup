@@ -86,7 +86,7 @@ return {
     {
         "nvim-pack/nvim-spectre",
         keys = {
-            { ";r", function() require("spectre").open() end, desc = "Open Spectre" },
+            { ";R", function() require("spectre").open() end, desc = "Open Spectre" },
         },
     },
     {

@@ -2,13 +2,11 @@ return {
     {
         "catppuccin/nvim",
         name = "catppuccin",
-        priority = 1000, -- Make sure it loads first
+        priority = 1000,
         config = function()
-            -- 1. Setup the theme
             require("catppuccin").setup({
                 flavour = "mocha",
             })
-            -- 2. Actually apply it!
             vim.cmd.colorscheme "catppuccin"
         end,
     },
