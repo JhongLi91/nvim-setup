@@ -49,7 +49,6 @@ return {
                 callback = function()
                     vim.notify("Conflict detected in " .. vim.fn.expand("<afile>"))
                     vim.keymap.set("n", "cww", function()
-                        -- Note: 'engage' wasn't defined in original code, assumed global or mistake in original
                         engage.conflict_buster()
                         create_buffer_local_mappings()
                     end)
