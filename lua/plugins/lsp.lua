@@ -88,7 +88,7 @@ return {
                 },
             })
 
-            local ls_to_setup = { "pyright", "clangd", "lua_ls", "html", "ts_ls", "cmake", "gopls" }
+            local ls_to_setup = { "pyright", "clangd", "lua_ls", "html", "ts_ls", "cmake", "gopls", "rust-analyzer" }
             for _, server in ipairs(ls_to_setup) do
                 vim.lsp.enable(server)
             end
@@ -161,9 +161,11 @@ return {
             require("conform").setup({
                 formatters_by_ft = {
                     lua = { "stylua" },
+                    rust = { "rustfmt" },
                     c = { "clang-format" },
                     cpp = { "clang-format" },
                     python = { "ruff_format" },
+                    go = { "goimports", "gofmt" },
                     javascript = { "prettierd", "prettier" },
                     html = { "prettierd", "prettier" },
                 },
@@ -181,7 +183,7 @@ return {
         build = ":TSUpdate",
         config = function()
             require("nvim-treesitter.configs").setup({
-                ensure_installed = { "c", "cpp", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "java" },
+                ensure_installed = { "c", "cpp", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "java", "go", "rust" },
                 sync_install = false,
                 auto_install = true,
                 highlight = { enable = true },
