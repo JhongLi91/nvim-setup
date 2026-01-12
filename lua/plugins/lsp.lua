@@ -88,7 +88,7 @@ return {
                 },
             })
 
-            local ls_to_setup = { "pyright", "clangd", "lua_ls", "html", "ts_ls", "cmake" }
+            local ls_to_setup = { "pyright", "clangd", "lua_ls", "html", "ts_ls", "cmake", "gopls" }
             for _, server in ipairs(ls_to_setup) do
                 vim.lsp.enable(server)
             end
@@ -118,7 +118,6 @@ return {
                     expand = function(args) ls.lsp_expand(args.body) end,
                 },
                 mapping = {
-                    ["<C-s>"] = cmp.config.disable,
                     ["<Tab>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
                     ["<Enter>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
                     ["<C-n>"] = cmp.mapping.select_next_item(),
