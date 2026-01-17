@@ -88,7 +88,7 @@ return {
                 },
             })
 
-            local ls_to_setup = { "pyright", "clangd", "lua_ls", "html", "ts_ls", "cmake", "gopls", "rust-analyzer" }
+            local ls_to_setup = { "pyright", "clangd", "lua_ls", "html", "ts_ls", "cmake", "gopls", "rust_analyzer" }
             for _, server in ipairs(ls_to_setup) do
                 vim.lsp.enable(server)
             end
@@ -170,7 +170,7 @@ return {
                     html = { "prettierd", "prettier" },
                 },
                 default_format_opts = { lsp_format = "fallback" },
-                format_on_save = { timeout_ms = 500, lsp_format = "fallback" },
+                format_on_save = { timeout_ms = 1000, lsp_format = "fallback" },
             })
             vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
             vim.api.nvim_set_keymap("n", "==", "gqq", { noremap = true, silent = true })
@@ -183,7 +183,7 @@ return {
         build = ":TSUpdate",
         config = function()
             require("nvim-treesitter.configs").setup({
-                ensure_installed = { "c", "cpp", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "java", "go", "rust" },
+                ensure_installed = { "c", "cpp", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "java", "rust" },
                 sync_install = false,
                 auto_install = true,
                 highlight = { enable = true },
