@@ -86,7 +86,7 @@ return {
     {
         "nvim-pack/nvim-spectre",
         keys = {
-            { ";R", function() require("spectre").open() end, desc = "Open Spectre" },
+            { "<leader>R", function() require("spectre").open() end, desc = "Open Spectre" },
         },
     },
     {
@@ -94,9 +94,9 @@ return {
         dependencies = { "nvim-lua/plenary.nvim" },
         opts = { signs = false },
         keys = {
-            { "]t", function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
-            { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous todo comment" },
-            { ";t", "<CMD>TodoTelescope<CR>",                            desc = "Todo Telescope" },
+            { "]t",        function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
+            { "[t",        function() require("todo-comments").jump_prev() end, desc = "Previous todo comment" },
+            { "<leader>t", "<CMD>TodoTelescope<CR>",                            desc = "Todo Telescope" },
         }
     },
 }

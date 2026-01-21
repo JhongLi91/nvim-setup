@@ -44,10 +44,10 @@ return {
                 },
             })
             local builtin = require("telescope.builtin")
-            vim.keymap.set("n", ";f", builtin.find_files)
-            vim.keymap.set("n", ";e",
+            vim.keymap.set("n", "<leader>f", builtin.find_files)
+            vim.keymap.set("n", "<leader>e",
                 function() builtin.diagnostics({ severity_limit = vim.diagnostic.severity.ERROR }) end)
-            vim.keymap.set("n", ";h", builtin.live_grep)
+            vim.keymap.set("n", "<leader>h", builtin.live_grep)
         end,
     },
     {
@@ -55,21 +55,21 @@ return {
         config = function()
             local harpoon = require("harpoon")
             harpoon:setup({})
-            vim.keymap.set("n", ";a", function() harpoon:list():add() end,
+            vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end,
                 { silent = true, desc = "Harpoon add file" })
-            vim.keymap.set("n", ";w", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
+            vim.keymap.set("n", "<leader>w", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
                 { silent = true, desc = "Harpoon quick menu" })
-            vim.keymap.set("n", ";1", function() harpoon:list():select(1) end,
+            vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end,
                 { silent = true, desc = "Harpoon file 1" })
-            vim.keymap.set("n", ";2", function() harpoon:list():select(2) end,
+            vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end,
                 { silent = true, desc = "Harpoon file 2" })
-            vim.keymap.set("n", ";3", function() harpoon:list():select(3) end,
+            vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end,
                 { silent = true, desc = "Harpoon file 3" })
-            vim.keymap.set("n", ";4", function() harpoon:list():select(4) end,
+            vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end,
                 { silent = true, desc = "Harpoon file 4" })
-            vim.keymap.set("n", ";5", function() harpoon:list():select(5) end,
+            vim.keymap.set("n", "<leader>5", function() harpoon:list():select(5) end,
                 { silent = true, desc = "Harpoon file 5" })
-            vim.keymap.set("n", ";6", function() harpoon:list():select(6) end,
+            vim.keymap.set("n", "<leader>6", function() harpoon:list():select(6) end,
                 { silent = true, desc = "Harpoon file 6" })
         end
     },
@@ -78,7 +78,7 @@ return {
         event = "BufReadPre",
         opts = {},
         keys = {
-            { ";s", function() require("persistence").load() end, desc = "Load Session" }
+            { "<leader>s", function() require("persistence").load() end, desc = "Load Session" }
         }
     },
 }

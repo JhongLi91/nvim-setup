@@ -8,8 +8,8 @@ return {
                 on_attach = function(bufnr)
                     local gs = require("gitsigns")
                     local opts = { buffer = bufnr, noremap = true, silent = true }
-                    vim.keymap.set("n", ";gr", gs.reset_hunk, opts)
-                    vim.keymap.set("n", ";gl", function()
+                    vim.keymap.set("n", "<leader>gr", gs.reset_hunk, opts)
+                    vim.keymap.set("n", "<leader>gl", function()
                         local lnum = vim.fn.line(".")
                         gs.reset_hunk({ lnum, lnum })
                     end, opts)
@@ -59,8 +59,7 @@ return {
     {
         "tpope/vim-fugitive",
         keys = {
-            { ";g", ":Git<CR>",        noremap = true, silent = true },
-            { ";y", ":Gvdiffsplit<CR>" },
+            { "<leader>gy", ":Gvdiffsplit<CR>" },
         }
     },
 }
