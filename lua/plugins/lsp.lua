@@ -61,6 +61,12 @@ return {
                 end,
             })
 
+            -- Code Action
+            vim.keymap.set("n", "ga", vim.lsp.buf.code_action, {})
+            vim.keymap.set("v", "ga", function()
+                vim.lsp.buf.code_action({ range = vim.api.nvim_buf_get_extmark_by_id(0, "visual_selection", 0, 0, {}) })
+            end, {})
+
             -- Handlers
             vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
 
