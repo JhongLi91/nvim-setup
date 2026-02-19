@@ -54,7 +54,7 @@ return {
                     vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
                     vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
                     vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
-                    vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
+                    vim.keymap.set("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
                     vim.keymap.set("n", "<leader>r", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
                     vim.keymap.set("n", "gu", "<cmd>cexpr []<cr><cmd>lua vim.lsp.buf.references()<cr>", opts)
                     vim.keymap.set("n", "L", "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
@@ -176,7 +176,7 @@ return {
                     html = { "prettierd", "prettier" },
                 },
                 default_format_opts = { lsp_format = "fallback" },
-                format_on_save = { timeout_ms = 1000, lsp_format = "fallback" },
+                format_on_save = { timeout_ms = 1500, lsp_format = "fallback" },
             })
             vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
         end
