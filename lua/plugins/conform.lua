@@ -11,9 +11,8 @@ function conform_setup()
             html = { "prettierd", "prettier" },
         },
         default_format_opts = { lsp_format = "fallback" },
-        format_on_save = { timeout_ms = 1500, lsp_format = "fallback" },
+        format_on_save = { timeout_ms = 2000, lsp_format = "fallback" },
     })
 
-    -- Use conform for the Neovim formatexpr (used for gq)
     vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 end

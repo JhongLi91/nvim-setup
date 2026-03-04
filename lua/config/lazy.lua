@@ -57,7 +57,7 @@ require("lazy").setup({
 
         {
             "Wansmer/treesj",
-            keys = { "<C-m>", "<C-M>" },
+            keys = { "<C-m>" },
             dependencies = { "nvim-treesitter/nvim-treesitter" },
             config = treejs_setup,
         },
@@ -115,6 +115,7 @@ require("lazy").setup({
             build = ":TSUpdate",
             event = "BufReadPost",
             dependencies = { "nvim-treesitter/nvim-treesitter-context" },
+            config = treesitter_setup,
         },
 
         -- comment
