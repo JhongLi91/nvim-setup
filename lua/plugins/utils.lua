@@ -20,9 +20,7 @@ function treejs_setup()
         use_default_keymaps = false,
     })
     vim.keymap.set({ "n", "i" }, "<C-m>", require("treesj").toggle)
-    vim.keymap.set({ "n", "i" }, "<C-M>", function()
-        require("treesj").toggle({ split = { recursive = true } })
-    end)
+    vim.keymap.set({ "n", "i" }, "<C-M>", function() require("treesj").toggle({ split = { recursive = true } }) end)
 end
 
 ----------------------------------------------persistence--------------------------------------------------
@@ -83,16 +81,15 @@ function autopairs_setup()
     local cond = require("nvim-autopairs.conds")
 
     autopairs.setup({
-        map_bs = true,             -- map the <BS> key
-        map_c_w = true,            -- Map the <C-h> key to delete a pair
-        check_ts = true,           -- Enable treesitter integration
-        enable_afterquote = false, -- add bracket pairs after quote
+        map_bs = true,
+        map_c_w = true,
+        check_ts = true,
+        enable_afterquote = false,
         fast_wrap = {
             map = "<C-j>",
             end_key = "l",
             manual_position = false,
             keys = "asdfghjk",
-            -- cursor_pos_before = treu,
         },
         ignored_next_char = "[%w%(%{%[%'%\"]",
     })
