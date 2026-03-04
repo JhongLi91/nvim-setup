@@ -44,6 +44,18 @@ function treesitter_setup()
         indent = {
             enable = false,
         },
+        textobjects = {
+            move = {
+                enable = true,
+                set_jumps = true,
+                goto_next_start = {
+                    ["}}"] = { query = "@block.outer", desc = "Next block/closure start" },
+                },
+                goto_previous_start = {
+                    ["{{"] = { query = "@block.outer", desc = "Previous block/closure start" },
+                },
+            },
+        },
     })
 
     require("treesitter-context").setup({
@@ -57,7 +69,7 @@ function treesitter_setup()
     end
     setBG("TreesitterContextBottom", "#203034")
 
-    vim.keymap.set("n", "<C-h>", function()
+    vim.keymap.set("n", "<C-z>", function()
         require("treesitter-context").go_to_context(vim.v.count1)
     end, { silent = true })
 end
@@ -97,7 +109,6 @@ function autopairs_setup()
     local cmp_autopairs = require("nvim-autopairs.completion.cmp")
     require("cmp").event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
-    -- so that {<space> ->  { <cursor> }
     function rule1(a1, ins, a2, lang)
         autopairs.add_rule(Rule(ins, ins, lang)
             :with_pair(function(opts)
@@ -108,7 +119,7 @@ function autopairs_setup()
             :with_del(function(opts)
                 local col = vim.api.nvim_win_get_cursor(0)[2]
                 return a1 .. ins .. ins .. a2 ==
-                    opts.line:sub(col - #a1 - #ins + 1, col + #ins + #a2) -- insert only works for #ins == 1 anyway
+                    opts.line:sub(col - #a1 - #ins + 1, col + #ins + #a2)
             end))
     end
 

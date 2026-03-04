@@ -38,6 +38,8 @@ require("lazy").setup({
             end,
         },
         { "nvim-tree/nvim-web-devicons", lazy = true },
+
+        -- indent
         {
             "lukas-reineke/indent-blankline.nvim",
             main = "ibl",
@@ -47,6 +49,8 @@ require("lazy").setup({
                 scope = { enabled = false },
             },
         },
+
+        -- preview
         {
             "iamcco/markdown-preview.nvim",
             cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
@@ -55,6 +59,7 @@ require("lazy").setup({
             ft = { "markdown" },
         },
 
+        -- treejs
         {
             "Wansmer/treesj",
             keys = { "<C-m>" },
@@ -114,7 +119,10 @@ require("lazy").setup({
             "nvim-treesitter/nvim-treesitter",
             build = ":TSUpdate",
             event = "BufReadPost",
-            dependencies = { "nvim-treesitter/nvim-treesitter-context" },
+            dependencies = {
+                "nvim-treesitter/nvim-treesitter-context",
+                "nvim-treesitter/nvim-treesitter-textobjects", -- Add this line!
+            },
             config = treesitter_setup,
         },
 
