@@ -133,6 +133,21 @@ end
 ----------------------------------------------replacer setup--------------------------------------------------
 function spectre_setup()
     require("spectre").setup()
+    vim.keymap.set("n", ";R", ":Spectre<CR>")
 end
 
-vim.keymap.set("n", ";R", ":Spectre<CR>")
+----------------------------------------------illuminate setup--------------------------------------------------
+
+function illuminate_setup()
+    require("illuminate").configure({
+        providers = { "lsp", "treesitter", "regex" },
+    })
+
+    vim.keymap.set({ "n" }, "]u", function()
+        require("illuminate").goto_next_reference(true) -- 'true' means it will wrap around the file
+    end, { desc = "Next Variable Usage" })
+
+    vim.keymap.set({ "n" }, "[u", function()
+        require("illuminate").goto_prev_reference(true)
+    end, { desc = "Previous Variable Usage" })
+end

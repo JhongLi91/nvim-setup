@@ -174,6 +174,13 @@ require("lazy").setup({
             },
             config = git_setup,
         },
+
+        -- Highlight and jump between variable usages
+        {
+            "RRethy/vim-illuminate",
+            event = "BufReadPost",
+            config = illuminate_setup,
+        },
     },
     install = { colorscheme = { "habamax" } },
     checker = { enabled = false },
