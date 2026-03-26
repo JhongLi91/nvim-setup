@@ -46,40 +46,19 @@ function lsp_setup()
             vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
             vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
 
-            local function has_split(dir)
-                local win1 = vim.api.nvim_get_current_win()
-                vim.cmd("wincmd " .. dir)
-                local win2 = vim.api.nvim_get_current_win()
-                return win1 ~= win2 and win2 or -1
+            local function open_def_right_keep_focus()
+                local orig_win = vim.api.nvim_get_current_win()
+                vim.cmd("rightbelow vsplit")
+                vim.lsp.buf.definition()
+                vim.defer_fn(function()
+                    if vim.api.nvim_win_is_valid(orig_win) then
+                        vim.api.nvim_set_current_win(orig_win)
+                    end
+                end, 150)
             end
 
-            local function open()
-                local win1 = vim.api.nvim_get_current_win()
+            vim.keymap.set("n", "<C-w>f", open_def_right_keep_focus, opts)
 
-                local buf = vim.api.nvim_get_current_buf()
-                local cursor = vim.api.nvim_win_get_cursor(win1)
-
-                local left = has_split("h")
-                local right = has_split("l")
-
-                local function follow(other)
-                    vim.api.nvim_win_set_buf(other, buf)
-                    vim.api.nvim_win_set_cursor(other, cursor)
-                    vim.api.nvim_set_current_win(other)
-                end
-
-                if left ~= -1 then
-                    follow(left)
-                elseif right ~= -1 then
-                    follow(right)
-                else
-                    vim.cmd("vsplit")
-                end
-
-                vim.cmd("lua vim.lsp.buf.definition()")
-            end
-
-            vim.keymap.set("n", "<C-w>f", open, opts)
             -- Code Action
             vim.keymap.set("n", ";a", vim.lsp.buf.code_action, {})
             vim.keymap.set("v", ";a", function()
