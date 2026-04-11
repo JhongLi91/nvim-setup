@@ -67,11 +67,16 @@ function lsp_setup()
 
             vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
             vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
-            vim.keymap.set("n", "gr", "<cmd>cexpr []<cr><cmd>lua vim.lsp.buf.references()<cr>", opts)
             vim.keymap.set("n", ";r", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
             vim.keymap.set("n", "L", "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
             vim.keymap.set("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
             vim.keymap.set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts)
+
+            vim.keymap.set("n", "gu", function()
+                require("telescope.builtin").lsp_references({
+                    include_declaration = true,
+                })
+            end, opts)
         end,
     })
 

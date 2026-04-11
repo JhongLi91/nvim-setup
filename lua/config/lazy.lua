@@ -29,7 +29,6 @@ require("lazy").setup({
         {
             "catppuccin/nvim",
             name = "catppuccin",
-            priority = 1000,
             config = function()
                 require("catppuccin").setup({
                     flavour = "mocha",
@@ -121,7 +120,7 @@ require("lazy").setup({
             event = "BufReadPost",
             dependencies = {
                 "nvim-treesitter/nvim-treesitter-context",
-                "nvim-treesitter/nvim-treesitter-textobjects", -- Add this line!
+                "nvim-treesitter/nvim-treesitter-textobjects",
             },
             config = treesitter_setup,
         },
@@ -153,12 +152,9 @@ require("lazy").setup({
         },
 
         -- editing helpers
-        { "windwp/nvim-autopairs",    event = "InsertEnter", config = autopairs_setup },
-        { "windwp/nvim-ts-autotag",   event = "InsertEnter", config = autotag_setup },
-        { "kylechui/nvim-surround",   event = "InsertEnter", config = surround_setup },
-
-        -- status line
-        { "nvim-lualine/lualine.nvim" },
+        { "windwp/nvim-autopairs",  event = "InsertEnter", config = autopairs_setup },
+        { "windwp/nvim-ts-autotag", event = "InsertEnter", config = autotag_setup },
+        { "kylechui/nvim-surround", event = "InsertEnter", config = surround_setup },
 
         -- git
         {
@@ -180,6 +176,13 @@ require("lazy").setup({
             "RRethy/vim-illuminate",
             event = "BufReadPost",
             config = illuminate_setup,
+        },
+
+        -- lualine for pretty editor
+        {
+            "nvim-lualine/lualine.nvim",
+            dependencies = { "nvim-tree/nvim-web-devicons" },
+            config = lualine_setup,
         },
     },
     install = { colorscheme = { "habamax" } },

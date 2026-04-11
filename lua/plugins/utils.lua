@@ -35,7 +35,10 @@ end)
 -------------------------------------------tree-sitter setup--------------------------------------------
 function treesitter_setup()
     require("nvim-treesitter.configs").setup({
-        ensure_installed = { "c", "cpp", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "java" },
+        ensure_installed = {
+            "c", "cpp", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "java",
+            "python", "html", "javascript", "typescript", "cmake", "go", "rust"
+        },
         sync_install = false,
         auto_install = true,
         highlight = {
@@ -141,6 +144,10 @@ end
 function illuminate_setup()
     require("illuminate").configure({
         providers = { "lsp", "treesitter", "regex" },
+        delay = 200,
+        filetypes_denylist = {
+            "dirbuf", "dirvish", "fugitive", "TelescopePrompt", "qf"
+        },
     })
 
     vim.keymap.set({ "n" }, "]u", function()
@@ -150,4 +157,26 @@ function illuminate_setup()
     vim.keymap.set({ "n" }, "[u", function()
         require("illuminate").goto_prev_reference(true)
     end, { desc = "Previous Variable Usage" })
+end
+
+----------------------------------------------lualine setup--------------------------------------------------
+function lualine_setup()
+    require("lualine").setup({
+        options = {
+            theme = "auto",
+            globalstatus = true,
+            component_separators = { left = '', right = '' },
+            section_separators = { left = '', right = '' },
+        },
+        sections = {
+            lualine_a = { 'mode' },
+            lualine_b = { 'branch', 'diff', 'diagnostics' },
+            lualine_c = { 'filename' },
+
+            -- The right side of the bar
+            lualine_x = { 'encoding', 'fileformat', 'filetype' },
+            lualine_y = { 'progress' },
+            lualine_z = { 'location' }
+        },
+    })
 end
