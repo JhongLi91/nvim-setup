@@ -11,6 +11,7 @@ function harpoon_setup()
     vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end, { silent = true, desc = "Harpoon file 4" })
     vim.keymap.set("n", "<leader>5", function() harpoon:list():select(5) end, { silent = true, desc = "Harpoon file 5" })
     vim.keymap.set("n", "<leader>6", function() harpoon:list():select(6) end, { silent = true, desc = "Harpoon file 6" })
+    vim.keymap.set("n", "<leader>7", function() harpoon:list():select(6) end, { silent = true, desc = "Harpoon file 7" })
 end
 
 -------------------------------- treesj ---------------------------------
