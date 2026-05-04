@@ -161,6 +161,7 @@ function illuminate_setup()
 end
 
 ----------------------------------------------lualine setup--------------------------------------------------
+
 function lualine_setup()
     require("lualine").setup({
         options = {
