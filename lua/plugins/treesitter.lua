@@ -1,39 +1,36 @@
 return {
     {
         "nvim-treesitter/nvim-treesitter",
+        branch = "main",
         build = ":TSUpdate",
-        event = "BufReadPost",
+        lazy = false,
         dependencies = {
             "nvim-treesitter/nvim-treesitter-context",
-            "nvim-treesitter/nvim-treesitter-textobjects",
+            { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
         },
         config = function()
-            require("nvim-treesitter.configs").setup({
-                ensure_installed = {
-                    "c", "cpp", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "java",
-                    "python", "html", "javascript", "typescript", "cmake", "go", "rust"
-                },
-                sync_install = false,
-                auto_install = true,
-                highlight = {
-                    enable = true,
-                },
-                indent = {
-                    enable = false,
-                },
-                textobjects = {
-                    move = {
-                        enable = true,
-                        set_jumps = true,
-                        goto_next_start = {
-                            ["}}"] = { query = "@block.outer", desc = "Next block/closure start" },
-                        },
-                        goto_previous_start = {
-                            ["{{"] = { query = "@block.outer", desc = "Previous block/closure start" },
-                        },
-                    },
+            local ts = require("nvim-treesitter")
+            ts.setup({
+                install_dir = vim.fn.stdpath("data") .. "/site",
+            })
+            ts.install({
+                "c", "cpp", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "java",
+                "python", "html", "javascript", "typescript", "cmake", "go", "rust",
+            })
+
+            require("nvim-treesitter-textobjects").setup({
+                move = {
+                    set_jumps = true,
                 },
             })
+
+            vim.keymap.set({ "n", "x", "o" }, "}}", function()
+                require("nvim-treesitter-textobjects.move").goto_next_start("@block.outer", "textobjects")
+            end, { desc = "Next block/closure start" })
+
+            vim.keymap.set({ "n", "x", "o" }, "{{", function()
+                require("nvim-treesitter-textobjects.move").goto_previous_start("@block.outer", "textobjects")
+            end, { desc = "Previous block/closure start" })
 
             require("treesitter-context").setup({
                 max_lines = 1,
