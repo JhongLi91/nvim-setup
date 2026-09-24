@@ -55,10 +55,7 @@ return {
                     vim.keymap.set("n", "<C-w>f", open_def_right_keep_focus, opts)
 
                     -- Code Action
-                    vim.keymap.set("n", ";a", vim.lsp.buf.code_action, opts)
-                    vim.keymap.set("v", ";a", function()
-                        vim.lsp.buf.code_action({ range = vim.api.nvim_buf_get_extmark_by_id(0, "visual_selection", 0, 0, {}) })
-                    end, opts)
+                    vim.keymap.set({ "n", "v" }, ";a", vim.lsp.buf.code_action, opts)
 
                     vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
                     vim.keymap.set("n", "go", vim.lsp.buf.type_definition, opts)
@@ -97,8 +94,7 @@ return {
                         },
                     }
                 end
-                vim.lsp.config(server, server_config)
-                vim.lsp.enable(server)
+                require("lspconfig")[server].setup(server_config)
             end
         end,
     },
