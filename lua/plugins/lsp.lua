@@ -94,7 +94,8 @@ return {
                         },
                     }
                 end
-                require("lspconfig")[server].setup(server_config)
+                vim.lsp.config(server, server_config)
+                vim.lsp.enable(server)
             end
         end,
     },
