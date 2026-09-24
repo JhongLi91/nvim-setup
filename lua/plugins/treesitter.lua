@@ -9,13 +9,13 @@ return {
             { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
         },
         config = function()
-            require("nvim-treesitter.configs").setup({
+            local ts = require("nvim-treesitter")
+            ts.setup({
                 install_dir = vim.fn.stdpath("data") .. "/site",
-                ensure_installed = {
-                    "c", "cpp", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "java",
-                    "python", "html", "javascript", "typescript", "cmake", "go", "rust",
-                },
-                highlight = { enable = true },
+            })
+            ts.install({
+                "c", "cpp", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "java",
+                "python", "html", "javascript", "typescript", "cmake", "go", "rust",
             })
 
             require("nvim-treesitter-textobjects").setup({
