@@ -87,6 +87,10 @@ return {
         event = "VeryLazy",
         opts = {
             preset = "modern",
+            keys = {
+                scroll_down = "<C-N>",
+                scroll_up = "<C-P>",
+            },
         },
         keys = {
             {
