@@ -1,24 +1,15 @@
 return {
     {
-        "ThePrimeagen/harpoon",
-        branch = "harpoon2",
-        dependencies = { "nvim-lua/plenary.nvim" },
+        "folke/flash.nvim",
         event = "VeryLazy",
-        config = function()
-            local harpoon = require("harpoon")
-            harpoon:setup({})
-
-            vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end, { silent = true, desc = "Harpoon add file" })
-            vim.keymap.set("n", "<leader>w", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
-                { silent = true, desc = "Harpoon quick menu" })
-            vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end, { silent = true, desc = "Harpoon file 1" })
-            vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end, { silent = true, desc = "Harpoon file 2" })
-            vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end, { silent = true, desc = "Harpoon file 3" })
-            vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end, { silent = true, desc = "Harpoon file 4" })
-            vim.keymap.set("n", "<leader>5", function() harpoon:list():select(5) end, { silent = true, desc = "Harpoon file 5" })
-            vim.keymap.set("n", "<leader>6", function() harpoon:list():select(6) end, { silent = true, desc = "Harpoon file 6" })
-            vim.keymap.set("n", "<leader>7", function() harpoon:list():select(7) end, { silent = true, desc = "Harpoon file 7" })
-        end,
+        opts = {},
+        keys = {
+            { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+            { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+            { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+            { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+            { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+        },
     },
     {
         "folke/persistence.nvim",
